@@ -1,0 +1,6 @@
+langchain
+streamlit
+chromadb
+fastembed
+streamlit_chat
+pypdf
