@@ -1,6 +1,5 @@
 import streamlit as st
 
-# from langchain.llms import OpenAI
 from langchain.chat_models import ChatOllama
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
@@ -15,9 +14,9 @@ from langchain.prompts import (
 import utils
 from streaming import StreamHandler
 
-st.set_page_config(page_title="eXalt chatbot")
-st.header("eXalt chatbot")
-st.write("Ask anything about eXalt!")
+st.set_page_config(page_title="My chatbot")
+st.header("Random chatbot")
+st.write("Ask me anything!")
 
 
 class ContextDocumentChatbot:
@@ -28,7 +27,7 @@ class ContextDocumentChatbot:
     @st.cache_resource
     def setup_chain(_self):
         vector_store = Chroma(
-            persist_directory="/home/olivier/llm-playground/chroma_store",
+            persist_directory="chroma_store/",
             embedding_function=FastEmbedEmbeddings(),
         )
         retriever = vector_store.as_retriever(
@@ -38,7 +37,7 @@ class ContextDocumentChatbot:
         memory = ConversationBufferMemory(
             memory_key="chat_history", return_messages=True
         )
-        llm = ChatOllama(model="mistral")
+        llm = ChatOllama(model="llama2", base_url="http://ollama:11434", verbose=True)
         system_message_prompt = SystemMessagePromptTemplate.from_template(
             """
             You are a chatbot tasked with responding to questions about the company eXalt.
